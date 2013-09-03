@@ -14,6 +14,12 @@ final class MY {
     private static $instance;
 
     public function run() {
-        var_dump('This in my first own framework');
+        my_require_class($this->request_class);
+        my_require_class($this->response_class);
+        var_dump('hahah');
     }
+
+    private $router_class = "MY_Router";
+    private $request_class = "MY_Request";
+    private $response_class = "MY_Response";
 }
