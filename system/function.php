@@ -30,3 +30,28 @@ function my_classname_2_filename($class) {
     $class = $paths[$count];
     return "$path$class";
 }
+
+function redirect_to($str) {
+    $server = $_SERVER['HTTP_HOST'];
+    header('Location: '.$server.$str);
+}
+
+function getFile($dir) {
+  $fileArray[]=NULL;
+  if (false != ($handle = opendir ( $dir ))) {
+      $i=0;
+      while ( false !== ($file = readdir ( $handle )) ) {
+          //去掉"“.”、“..”以及带“.xxx”后缀的文件
+          if ($file != "." && $file != ".."&&strpos($file,".")) {
+              $fileArray[$i] = $dir.$file;
+              if($i == 100){
+                  break;
+              }
+              $i++;
+          }
+      }
+      //关闭句柄
+      closedir ( $handle );
+  }
+  return $fileArray;
+}
