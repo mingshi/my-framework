@@ -31,7 +31,8 @@ final class MY {
         $this->request = new $this->request_class();
         $this->response = new $this->response_class();
 
-        var_dump($this->config);
+        $GLOBALS['config'] = $this->config;
+        $this->response->set_cookie('username', '1');
         if (!$this->dispatch()) {
             echo "1111";
         }
