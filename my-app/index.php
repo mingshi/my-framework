@@ -21,6 +21,10 @@ if (preg_match('/^\/[^\/]+\/\d+\.\d+(\.[^\/]+)\/.*/', $request_uri, $matches)) {
     $_SERVER['REQUEST_URI'] = preg_replace('/(^\/[^\/]+\/\d+\.\d+)(\.[^\/]+)(\/.*)/', '\\1\\3', $request_uri);
 }
 
+$base_uri = DIRECTORY_SEPARATOR=='/' ? dirname($_SERVER["SCRIPT_NAME"]) : str_replace('\\', '/', dirname($_SERVER["SCRIPT_NAME"]));
+define("BASE_URI", $base_uri =='/' ? '' : $base_uri);
+unset($base_uri);
+
 define('APP_NAME', 'my-app');
 define('APP_PATH', realpath(dirname(__FILE__)).'/');
 define('SYS_PATH', APP_PATH."../system/");

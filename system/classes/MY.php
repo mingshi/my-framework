@@ -32,16 +32,44 @@ final class MY {
         $this->response = new $this->response_class();
 
         $GLOBALS['config'] = $this->config;
-        $this->response->set_cookie('username', '1');
         if (!$this->dispatch()) {
             echo "1111";
         }
     }
 
     protected function dispatch() {
-        return FALSE;
+        my_require_class($this->router_class); 
+        $router = new $this->router_class();
+        $class = $router->mapping();
+        $controller = $this->get_controller($class); 
+
+        var_dump($controller);exit;
     }
 
+    public function get_controller($class) {
+        if (!$class) {
+            return false;
+        }
+        if (isset($this->controllers[$class])) {
+            return $this->controllers[$class];
+        }
+        $controller = $this->load_controller($class);
+        $this->controllers[$class] = $controller;
+        return $controller;
+    }
+
+    /**
+     * @param string $class
+     * @return APF_Controller
+     */
+    public function load_controller($class) {
+        my_require_controller($class);
+        $class= $class."Controller";
+        return new $class();
+    }
+
+    private $controllers = array(); 
+    
     public function load_config() {
         global $G_CONF_PATH;
         foreach ($G_CONF_PATH as $path) {
@@ -51,6 +79,14 @@ final class MY {
                 $this->config = array_merge($this->config, $config);
             }
         }
+    }
+
+    public function get_request() {
+        return $this->request;
+    }
+    
+    public function get_response() {
+        return $this->response;
     }
 
     public $config = array();

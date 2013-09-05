@@ -40,9 +40,23 @@ class MY_Request {
         return array_merge($_GET, $_POST);
     }
 
+    /**
+      * url router 类会在mapping匹配之后进行设置
+      */
+    public function set_router_matches($matches) {
+        $this->router_matches = $matches;
+    }
+    
+    /**
+      * 得到URL Router匹配之后的结果
+      */
+
+    public function get_router_matches() {
+        return $this->router_matches;
+    }
 
 
-
+    private $router_matches = array();
     protected $parameters_loader;
     protected $parameters;
 }

@@ -18,6 +18,14 @@ function my_require_class($class, $prefix="classes") {
     return TRUE;
 }
 
+function my_require_controller($class) {
+    if (class_exists($class . 'Controller')) {
+        return TRUE;
+    }
+
+    return my_require_class($class, "controller");
+}
+
 function my_classname_2_filename($class) {
     $paths = explode("_", $class);
     $count = count($paths) - 1;
